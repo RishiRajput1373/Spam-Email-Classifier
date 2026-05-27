@@ -2,6 +2,7 @@
 
 from pathlib import Path
 import pickle
+import warnings
 
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
@@ -23,6 +24,11 @@ def train_and_save_model() -> None:
     required_columns = {"text", "label"}
     if not required_columns.issubset(df.columns):
         raise ValueError("Dataset must include 'text' and 'label' columns.")
+    if len(df) < 100:
+        warnings.warn(
+            "Dataset is small; model quality may be limited. Consider adding more labeled emails.",
+            stacklevel=2,
+        )
 
     # Create text features using word frequencies, then fit Naive Bayes.
     X_train, X_test, y_train, y_test = train_test_split(
@@ -35,7 +41,7 @@ def train_and_save_model() -> None:
 
     model = Pipeline(
         [
-            ("vectorizer", CountVectorizer(stop_words="english")),
+            ("vectorizer", CountVectorizer(stop_words="english", max_features=5000)),
             ("classifier", MultinomialNB()),
         ]
     )
