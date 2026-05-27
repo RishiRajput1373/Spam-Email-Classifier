@@ -50,7 +50,8 @@ def train_and_save_model() -> None:
     # Evaluate and persist model + metrics for UI display.
     predictions = model.predict(X_test)
     accuracy = accuracy_score(y_test, predictions)
-    cm = confusion_matrix(y_test, predictions, labels=["ham", "spam"]).tolist()
+    labels = sorted(df["label"].dropna().unique().tolist())
+    cm = confusion_matrix(y_test, predictions, labels=labels).tolist()
 
     MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
     with MODEL_PATH.open("wb") as model_file:
@@ -59,13 +60,14 @@ def train_and_save_model() -> None:
                 "model": model,
                 "accuracy": float(accuracy),
                 "confusion_matrix": cm,
+                "labels": labels,
             },
             model_file,
         )
 
     print(f"Model trained and saved to: {MODEL_PATH}")
     print(f"Validation accuracy: {accuracy:.2%}")
-    print("Confusion matrix [ham, spam]:")
+    print(f"Confusion matrix {labels}:")
     print(cm)
 
 

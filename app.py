@@ -88,7 +88,8 @@ def main() -> None:
         if "accuracy" in artifact:
             st.caption(f"Model validation accuracy: {artifact['accuracy']:.2%}")
         if "confusion_matrix" in artifact:
-            st.write("Confusion matrix [ham, spam]:", artifact["confusion_matrix"])
+            labels = artifact.get("labels", list(model.classes_))
+            st.write(f"Confusion matrix {labels}:", artifact["confusion_matrix"])
 
 
 if __name__ == "__main__":
