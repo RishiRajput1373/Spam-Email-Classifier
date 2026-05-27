@@ -73,7 +73,11 @@ def main() -> None:
         try:
             prediction = model.predict([email_text])[0]
             probability = model.predict_proba([email_text])[0]
-            spam_probability = float(probability[list(model.classes_).index("spam")])
+            class_labels = list(model.classes_)
+            if "spam" not in class_labels:
+                st.error("Model labels must include 'spam'. Please retrain with valid labels.")
+                return
+            spam_probability = float(probability[class_labels.index("spam")])
         except Exception as exc:  # noqa: BLE001
             st.error(f"Prediction failed: {exc}")
             return

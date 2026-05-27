@@ -40,9 +40,10 @@ def train_and_save_model() -> None:
         stratify=df["label"],
     )
 
+    max_features = 1000 if len(df) < MIN_RECOMMENDED_SAMPLES else 5000
     model = Pipeline(
         [
-            ("vectorizer", CountVectorizer(stop_words="english", max_features=5000)),
+            ("vectorizer", CountVectorizer(stop_words="english", max_features=max_features)),
             ("classifier", MultinomialNB()),
         ]
     )
@@ -51,7 +52,7 @@ def train_and_save_model() -> None:
     # Evaluate and persist model + metrics for UI display.
     predictions = model.predict(X_test)
     accuracy = accuracy_score(y_test, predictions)
-    labels = sorted(df["label"].dropna().unique().tolist())
+    labels = ["ham", "spam"] if {"ham", "spam"}.issubset(set(df["label"])) else sorted(df["label"].dropna().unique())
     cm = confusion_matrix(y_test, predictions, labels=labels).tolist()
 
     MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
