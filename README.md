@@ -40,6 +40,7 @@ python train_model.py
 ```
 
 This creates `model/spam_classifier.pkl`.
+> Note: `data/spam_emails.csv` is a small demo dataset for local testing. For better real-world accuracy, add many more labeled spam/ham samples.
 
 ## Run Streamlit App
 
