@@ -1,3 +1,4 @@
+
 # 📧 Email Spam Classifier
 
 A Machine Learning project that classifies emails as Spam or Not Spam using Python and Scikit-learn.
@@ -88,3 +89,6 @@ Email Spam Classification Dataset
 ## 👨‍💻 Author
 
 Rishi Rajput
+=======
+# Spam-Email-Classifier
+A Machine Learning-based Email Spam Classifier built using Python, Scikit-learn, and Streamlit that detects whether an email is spam or not spam through text analysis and Naive Bayes classification.
