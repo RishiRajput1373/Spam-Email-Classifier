@@ -15,6 +15,7 @@ from sklearn.pipeline import Pipeline
 BASE_DIR = Path(__file__).resolve().parent
 DATA_PATH = BASE_DIR / "data" / "spam_emails.csv"
 MODEL_PATH = BASE_DIR / "model" / "spam_classifier.pkl"
+MIN_RECOMMENDED_SAMPLES = 100
 
 
 def train_and_save_model() -> None:
@@ -24,7 +25,7 @@ def train_and_save_model() -> None:
     required_columns = {"text", "label"}
     if not required_columns.issubset(df.columns):
         raise ValueError("Dataset must include 'text' and 'label' columns.")
-    if len(df) < 100:
+    if len(df) < MIN_RECOMMENDED_SAMPLES:
         warnings.warn(
             "Dataset is small; model quality may be limited. Consider adding more labeled emails.",
             stacklevel=2,
